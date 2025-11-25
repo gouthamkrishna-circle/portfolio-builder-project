@@ -286,8 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const skillsGrid = document.getElementById('skills-grid-container');
             async function loadSkills() {
                 if (!userId || !skillsGrid) return;
-                try { // This try/catch block is unchanged
-                    const response = await fetch(`http://localhost:3000/user/${userId}/skills`);
+                try {
+                    const response = await fetch(`/user/${userId}/skills`);
                     const skills = await response.json();
                     skillsGrid.innerHTML = '';
                     if (skills.length > 0) {
@@ -313,8 +313,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const projectsContainer = document.querySelector('.projects-container');
             async function loadProjects() {
                 if (!userId || !projectsContainer) return;
-                try { // This try/catch block is unchanged
-                    const response = await fetch(`http://localhost:3000/user/${userId}/projects`);
+                try {
+                    const response = await fetch(`/user/${userId}/projects`);
                     const projects = await response.json();
                     projectsContainer.innerHTML = ''; // Clear static projects
                     if (projects.length > 0) {

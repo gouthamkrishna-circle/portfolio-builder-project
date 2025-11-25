@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // --- Send all data to the server in one request ---
             try {
-                const response = await fetch('http://localhost:3000/profile/update-all', {
+                const response = await fetch('/profile/update-all', {
                     method: 'POST',
                     body: unifiedFormData, // FormData sets its own headers
                 });
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchAndDisplaySkills() {
         if (!userId) return;
         try {
-            const response = await fetch(`http://localhost:3000/user/${userId}/skills`);
+            const response = await fetch(`/user/${userId}/skills`);
             const skills = await response.json();
             existingSkillsList.innerHTML = '<h5>Your Current Skills:</h5>';
 
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             skillFormData.append('userId', userId);
 
             try {
-                const response = await fetch('http://localhost:3000/skill', {
+                const response = await fetch('/skill', {
                     method: 'POST',
                     body: skillFormData,
                 });
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.classList.contains('delete-skill-btn')) {
             const skillId = e.target.dataset.skillId;
             if (confirm('Are you sure you want to delete this skill?')) {
-                await fetch(`http://localhost:3000/skill/${skillId}`, { method: 'DELETE' });
+                await fetch(`/skill/${skillId}`, { method: 'DELETE' });
                 fetchAndDisplaySkills();
             }
         }
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchAndDisplayProjects() {
         if (!userId) return;
         try {
-            const response = await fetch(`http://localhost:3000/user/${userId}/projects`);
+            const response = await fetch(`/user/${userId}/projects`);
             const projects = await response.json();
             existingProjectsList.innerHTML = '<h5>Your Current Projects:</h5>';
             if (projects.length === 0) {
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             projectFormData.append('userId', userId);
 
             try {
-                const response = await fetch('http://localhost:3000/project', {
+                const response = await fetch('/project', {
                     method: 'POST',
                     body: projectFormData,
                 });
@@ -253,8 +253,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.classList.contains('delete-project-btn')) {
             const projectId = e.target.dataset.projectId;
             if (confirm('Are you sure you want to delete this project?')) {
-                try {
-                    const response = await fetch(`http://localhost:3000/project/${projectId}`, { method: 'DELETE' });
+                try { // This try/catch block is unchanged
+                    const response = await fetch(`/project/${projectId}`, { method: 'DELETE' });
                     const result = await response.json();
                     alert(result.message);
                     if (response.ok) {
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const editFormData = new FormData(editProjectForm);
 
             try {
-                const response = await fetch(`http://localhost:3000/project/${projectId}`, {
+                const response = await fetch(`/project/${projectId}`, {
                     method: 'PUT',
                     body: editFormData,
                 });

@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadSkills = async (currentUserId) => {
         const skillsGrid = document.getElementById('skills-grid-container');
         if (!skillsGrid) return;
-        try { // This try/catch block is unchanged
-            const response = await fetch(`http://localhost:3000/user/${currentUserId}/skills`);
+        try {
+            const response = await fetch(`/user/${currentUserId}/skills`);
             const skills = await response.json();
             skillsGrid.innerHTML = '';
             if (skills.length > 0) {
@@ -91,8 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadProjects = async (currentUserId, currentUsername) => {
         const projectsContainer = document.getElementById('projects-container');
         if (!projectsContainer) return;
-        try { // This try/catch block is unchanged
-            const response = await fetch(`http://localhost:3000/user/${currentUserId}/projects`);
+        try {
+            const response = await fetch(`/user/${currentUserId}/projects`);
             const projects = await response.json();
             projectsContainer.innerHTML = ''; // Clear static projects
             if (projects.length > 0) {
