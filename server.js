@@ -6,7 +6,9 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
-const fetch = require('node-fetch'); // You might need to install this: npm install node-fetch@2
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const fetch = require('node-fetch');
 require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
@@ -19,23 +21,21 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// --- Multer Configuration for Local Disk Storage ---
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const uploadPath = path.join(__dirname, 'uploads');
-        // Ensure the directory exists
-        fs.mkdirSync(uploadPath, { recursive: true });
-        cb(null, uploadPath);
-    },
-    filename: function (req, file, cb) {
-        // Create a unique filename to avoid overwriting
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-    }
+// --- Cloudinary Configuration ---
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// Serve uploaded files statically from the 'uploads' directory
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// --- Multer Configuration to use Cloudinary ---
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'portfolio-assets', // A folder name in your Cloudinary account
+        allowed_formats: ['jpg', 'png', 'jpeg', 'pdf'],
+    }
+});
 
 // Use upload.fields to handle multiple different file uploads
 const upload = multer({ storage: storage }).fields([
@@ -320,15 +320,12 @@ app.post('/profile/update-all', upload, async (req, res) => {
     const resumeFile = req.files['resumePdf'] ? req.files['resumePdf'][0] : null;
 
     try {
-        // For local storage, we save the URL path, not the full disk path
         if (profilePictureFile) {
-            const profilePicUrl = `/uploads/${profilePictureFile.filename}`;
-            await dbPool.execute('UPDATE users SET profile_picture_path = ? WHERE email = ?', [profilePicUrl, email]);
+            await dbPool.execute('UPDATE users SET profile_picture_path = ? WHERE email = ?', [profilePictureFile.path, email]);
         }
 
         if (resumeFile) {
-            const resumeUrl = `/uploads/${resumeFile.filename}`;
-            await dbPool.execute('UPDATE users SET resume_path = ? WHERE email = ?', [resumeUrl, email]);
+            await dbPool.execute('UPDATE users SET resume_path = ? WHERE email = ?', [resumeFile.path, email]);
         }
 
         // --- Part 3: Fetch and Return All Updated User Data ---
@@ -362,7 +359,7 @@ app.post('/profile/update-all', upload, async (req, res) => {
 app.post('/project', upload, async (req, res) => {
     const { userId, projectName, demoLink, sourceLink } = req.body;
     const thumbnailFile = req.files['projectThumbnail'] ? req.files['projectThumbnail'][0] : null;
-    const thumbnailPath = thumbnailFile ? `/uploads/${thumbnailFile.filename}` : null; // Use local URL path
+    const thumbnailPath = thumbnailFile ? thumbnailFile.path : null; // Use Cloudinary path
 
     if (!userId || !projectName) {
         return res.status(400).json({ message: 'User ID and Project Name are required.' });
@@ -405,8 +402,7 @@ app.put('/project/:projectId', upload, async (req, res) => {
     try {
         // The 'o' was a syntax error that would crash the server. It has been removed.
         if (thumbnailFile) {
-            const thumbnailUrl = `/uploads/${thumbnailFile.filename}`;
-            await dbPool.execute('UPDATE projects SET project_thumbnail_path = ? WHERE id = ?', [thumbnailUrl, projectId]);
+            await dbPool.execute('UPDATE projects SET project_thumbnail_path = ? WHERE id = ?', [thumbnailFile.path, projectId]);
         }
 
         await dbPool.execute(
@@ -439,7 +435,7 @@ app.delete('/project/:projectId', async (req, res) => {
 app.post('/skill', upload, async (req, res) => {
     const { userId, skillName } = req.body; // Multer will populate req.body with text fields
     const skillIconFile = req.files['skillIcon'] ? req.files['skillIcon'][0] : null;
-    const iconPath = skillIconFile ? `/uploads/${skillIconFile.filename}` : null; // Use local URL path
+    const iconPath = skillIconFile ? skillIconFile.path : null; // Use Cloudinary path
 
     if (!userId || !skillName || !skillIconFile) {
         return res.status(400).json({ message: 'User ID, Skill Name, and Skill Icon are required.' });
