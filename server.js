@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const fetch = require('node-fetch'); // You might need to install this: npm install node-fetch@2
+require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
 const port = 3000;
@@ -51,10 +52,10 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 // --- Database Connection ---
 // Use a connection pool for better performance
 const dbPool = mysql.createPool({
-    host: '127.0.0.1',       // Or 'localhost'
-    user: 'root',
-    password: '',            // Your XAMPP MySQL password (usually empty)
-    database: 'my_project_db', // The database you created
+    host: process.env.DB_HOST || '127.0.0.1',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'my_project_db',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -68,31 +69,37 @@ app.post('/chat', async (req, res) => {
     }
 
     // IMPORTANT: Use an environment variable for your API key
-    const apiKey = "AIzaSyAxChDly-jvemdkFKxC4-ujQCYdNs3gigw"; // Reverted for local testing
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`; // Reverted for local
+    const apiKey = process.env.GEMINI_API_KEY; // Securely load the key from .env file
+    // The URL must be in backticks (`) to be a valid template literal in JavaScript.
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`; // Switched to the stable 'gemini-pro' model
 
     const payload = {
         contents: [{ parts: [{ text: userMessage }] }]
     };
 
     try {
-        const apiResponse = await fetch(apiUrl, {
+        const response = await fetch(apiUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
-        const data = await apiResponse.json();
 
-        if (!apiResponse.ok) {
+        const data = await response.json();
+
+        if (!response.ok) {
             console.error("Gemini API Error:", data);
-            return res.status(500).json({ message: "Error from AI service." });
+            // Send the specific error message from the API back to the client
+            return res.status(500).json({ message: "API Error: " + (data.error?.message || "Unknown error") });
         }
-        res.json({ reply: data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't get a response." });
+
+        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Unexpected API response format.";
+        res.json({ reply: reply });
     } catch (error) {
-        console.error('Error calling Gemini API:', error);
-        res.status(500).json({ message: 'Server error while contacting AI service.' });
+        console.error('Request Error:', error);
+        res.status(500).json({ message: 'Request Error: ' + error });
     }
 });
+
 
 // --- Login Route ---
 app.post('/login', async (req, res) => {
