@@ -63,7 +63,7 @@ const dbOptions = {
 
 // Only add SSL configuration if we are in a production environment (like Render connecting to TiDB)
 if (process.env.DB_HOST) {
-    dbOptions.ssl = { rejectUnauthorized: false };
+    dbOptions.ssl = { rejectUnauthorized: false }; // Use SSL for the live database
 }
 
 const dbPool = mysql.createPool(dbOptions);
