@@ -6,6 +6,8 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const fetch = require('node-fetch'); // You might need to install this: npm install node-fetch@2
 
 const app = express();
@@ -18,26 +20,23 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from the 'uploads' directory
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// --- Cloudinary Configuration ---
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
-// --- Create 'uploads' directory if it doesn't exist ---
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir);
-}
-
-// --- Multer Configuration for File Uploads ---
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, uploadsDir);
-    },
-    filename: function (req, file, cb) {
-        // Create a unique filename to prevent overwrites
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+// --- Multer Configuration to use Cloudinary ---
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'portfolio-assets', // A folder name in your Cloudinary account
+        allowed_formats: ['jpg', 'png', 'jpeg', 'pdf'],
+        // transformation: [{ width: 500, height: 500, crop: 'limit' }] // Optional: resize images
     }
 });
+
 // Use upload.fields to handle multiple different file uploads
 const upload = multer({ storage: storage }).fields([
     { name: 'profilePicture', maxCount: 1 },
@@ -52,10 +51,10 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 // --- Database Connection ---
 // Use a connection pool for better performance
 const dbPool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    host: '127.0.0.1',       // Or 'localhost'
+    user: 'root',
+    password: '',            // Your XAMPP MySQL password (usually empty)
+    database: 'my_project_db', // The database you created
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -69,8 +68,8 @@ app.post('/chat', async (req, res) => {
     }
 
     // IMPORTANT: Use an environment variable for your API key
-    const apiKey = process.env.GEMINI_API_KEY;
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const apiKey = "AIzaSyAxChDly-jvemdkFKxC4-ujQCYdNs3gigw"; // Reverted for local testing
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`; // Reverted for local
 
     const payload = {
         contents: [{ parts: [{ text: userMessage }] }]
@@ -287,13 +286,13 @@ app.post('/profile/update-all', upload, async (req, res) => {
 
     try {
         if (profilePictureFile) {
-            const webPath = `uploads/${profilePictureFile.filename}`;
-            await dbPool.execute('UPDATE users SET profile_picture_path = ? WHERE email = ?', [webPath, email]);
+            // The path is now a full URL from Cloudinary
+            await dbPool.execute('UPDATE users SET profile_picture_path = ? WHERE email = ?', [profilePictureFile.path, email]);
         }
 
         if (resumeFile) {
-            const resumePath = `uploads/${resumeFile.filename}`;
-            await dbPool.execute('UPDATE users SET resume_path = ? WHERE email = ?', [resumePath, email]);
+            // The path is now a full URL from Cloudinary
+            await dbPool.execute('UPDATE users SET resume_path = ? WHERE email = ?', [resumeFile.path, email]);
         }
 
         // --- Part 3: Fetch and Return All Updated User Data ---
@@ -327,7 +326,7 @@ app.post('/profile/update-all', upload, async (req, res) => {
 app.post('/project', upload, async (req, res) => {
     const { userId, projectName, demoLink, sourceLink } = req.body;
     const thumbnailFile = req.files['projectThumbnail'] ? req.files['projectThumbnail'][0] : null;
-    const thumbnailPath = thumbnailFile ? `uploads/${thumbnailFile.filename}` : null;
+    const thumbnailPath = thumbnailFile ? thumbnailFile.path : null; // Use Cloudinary path
 
     if (!userId || !projectName) {
         return res.status(400).json({ message: 'User ID and Project Name are required.' });
@@ -370,8 +369,8 @@ app.put('/project/:projectId', upload, async (req, res) => {
     try {
         let thumbnailPath;o
         if (thumbnailFile) {
-            thumbnailPath = `uploads/${thumbnailFile.filename}`;
-            await dbPool.execute('UPDATE projects SET project_thumbnail_path = ? WHERE id = ?', [thumbnailPath, projectId]);
+            // Use Cloudinary path
+            await dbPool.execute('UPDATE projects SET project_thumbnail_path = ? WHERE id = ?', [thumbnailFile.path, projectId]);
         }
 
         await dbPool.execute(
@@ -404,7 +403,7 @@ app.delete('/project/:projectId', async (req, res) => {
 app.post('/skill', upload, async (req, res) => {
     const { userId, skillName } = req.body; // Multer will populate req.body with text fields
     const skillIconFile = req.files['skillIcon'] ? req.files['skillIcon'][0] : null;
-    const iconPath = skillIconFile ? `uploads/${skillIconFile.filename}` : null;
+    const iconPath = skillIconFile ? skillIconFile.path : null; // Use Cloudinary path
 
     if (!userId || !skillName || !skillIconFile) {
         return res.status(400).json({ message: 'User ID, Skill Name, and Skill Icon are required.' });
@@ -438,13 +437,7 @@ app.delete('/skill/:skillId', async (req, res) => {
     const { skillId } = req.params;
     try {
         // First, get the skill to find the icon path to delete the file
-        const [skills] = await dbPool.execute('SELECT skill_icon_path FROM skills WHERE id = ?', [skillId]);
-        if (skills.length > 0 && skills[0].skill_icon_path) {
-            const filePath = path.join(__dirname, skills[0].skill_icon_path);
-            if (fs.existsSync(filePath)) {
-                fs.unlinkSync(filePath); // Delete the icon file
-            }
-        }
+        // We no longer need to delete the file from the local disk
         // Then, delete the record from the database
         await dbPool.execute('DELETE FROM skills WHERE id = ?', [skillId]);
         res.status(200).json({ message: 'Skill deleted successfully.' });
@@ -476,8 +469,8 @@ app.post('/feedback', async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
+                user: 'tumanageswaritumanageswari@gmail.com', // Reverted for local testing
+                pass: 'nbpntweggqgkthwo'    // Reverted for local testing
             }
         });
 
