@@ -51,22 +51,22 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 
 // --- Database Connection ---
 // Use a connection pool for better performance
-const dbPool = mysql.createPool({
-
-    // Use environment variables for production (Render), and fall back to local settings for development.
+const dbOptions = {
     host: process.env.DB_HOST || '127.0.0.1',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'my_project_db',
-    ssl: {
-        // This setting is often required for cloud database connections (like TiDB)
-        // to trust the server's certificate without a specific CA file.
-        rejectUnauthorized: false
-    },
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
-});
+};
+
+// Only add SSL configuration if we are in a production environment (like Render connecting to TiDB)
+if (process.env.DB_HOST) {
+    dbOptions.ssl = { rejectUnauthorized: false };
+}
+
+const dbPool = mysql.createPool(dbOptions);
 
 // --- NEW Route for Chatbot ---
 app.post('/chat', async (req, res) => {
