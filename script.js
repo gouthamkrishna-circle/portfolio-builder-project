@@ -346,16 +346,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (logoutNavLink) {
                 logoutNavLink.addEventListener('click', (e) => {
                     e.preventDefault();
-                    
-                    // Clear all user data from localStorage
-                    localStorage.removeItem('userName');
-                    localStorage.removeItem('userEmail');
-                    localStorage.removeItem('userHeroDescription');
-                    localStorage.removeItem('userAbout');                    
-                    localStorage.removeItem('userTitle');
-                    localStorage.removeItem('userProfilePic');
-                    localStorage.removeItem('userResume');
-                    localStorage.removeItem('userContactEmail');
+
+                    // CRITICAL FIX: Use localStorage.clear() to remove ALL session data
+                    // This prevents old data from causing issues on the next login.
+                    localStorage.clear();
                     
                     // Redirect to the login page
                     window.location.href = 'login.html';
