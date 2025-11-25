@@ -52,6 +52,7 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 // --- Database Connection ---
 // Use a connection pool for better performance
 const dbPool = mysql.createPool({
+
     host: process.env.DB_HOST || '127.0.0.1',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
@@ -71,7 +72,7 @@ app.post('/chat', async (req, res) => {
     // IMPORTANT: Use an environment variable for your API key
     const apiKey = process.env.GEMINI_API_KEY; // Securely load the key from .env file
     // The URL must be in backticks (`) to be a valid template literal in JavaScript.
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`; // Switched to the stable 'gemini-pro' model
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${apiKey}`; // Using a confirmed model from your available list
 
     const payload = {
         contents: [{ parts: [{ text: userMessage }] }]
