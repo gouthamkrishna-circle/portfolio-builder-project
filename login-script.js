@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('userAbout', result.user.about);
                     localStorage.setItem('userHeroDescription', result.user.heroDescription);
                     localStorage.setItem('userTitle', result.user.title); // Correctly read 'title' and save as 'userTitle'
-                    localStorage.setItem('userProfilePic', result.user.profilePicture);
+                    localStorage.setItem('userProfilePic', result.user.profilePicture); // Standardize the key to 'userProfilePic'
                     localStorage.setItem('userResume', result.user.resume);
                     localStorage.setItem('userContactEmail', result.user.contactEmail);
                     localStorage.setItem('userRole', result.user.role); // Save the user role
