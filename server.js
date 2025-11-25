@@ -52,11 +52,11 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 // --- Database Connection ---
 // Use a connection pool for better performance
 const dbPool = mysql.createPool({
-    // Use Clever Cloud's automatically injected environment variables
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
+    // Use environment variables for production (Render), and fall back to local settings for development.
+    host: process.env.DB_HOST || '127.0.0.1',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'my_project_db',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
