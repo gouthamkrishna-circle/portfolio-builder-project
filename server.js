@@ -244,7 +244,7 @@ app.get('/admin/users', async (req, res) => {
 app.get('/admin/user/:id', async (req, res) => {
     const userId = req.params.id;
     try {
-        const [rows] = await dbPool.execute('SELECT * FROM users WHERE users WHERE id = ?', [userId]);
+        const [rows] = await dbPool.execute('SELECT * FROM users WHERE id = ?', [userId]);
         if (rows.length === 0) {
             return res.status(404).json({ message: 'User not found.' });
         }
