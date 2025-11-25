@@ -305,10 +305,12 @@ app.put('/admin/users/:id/make-admin', async (req, res) => {
 
 // --- NEW UNIFIED Profile Update Route ---
 app.post('/profile/update-all', upload, async (req, res) => {
-    const { email, name, about, heroDescription, skills, contactEmail } = req.body; // 'skills' here is the user_title
+    // Destructure all possible fields from the unified form
+    const { email, name, about, heroDescription, skills, contactEmail, skillName, projectName, demoLink, sourceLink } = req.body;
     if (!email) return res.status(400).json({ message: 'Email is required.' });
 
     try {
+        // --- Part 1: Update Core User Details ---
         await dbPool.execute('UPDATE users SET username = ?, about = ?, user_title = ?, hero_description = ?, contact_email = ? WHERE email = ?', [name, about, skills, heroDescription, contactEmail, email]);
     } catch (error) {
         console.error('Profile text update error:', error);
@@ -316,19 +318,44 @@ app.post('/profile/update-all', upload, async (req, res) => {
     }
 
     // --- Part 2: Handle File Data ---
-    const profilePictureFile = req.files['profilePicture'] ? req.files['profilePicture'][0] : null;
-    const resumeFile = req.files['resumePdf'] ? req.files['resumePdf'][0] : null;
-
     try {
+        const profilePictureFile = req.files['profilePicture'] ? req.files['profilePicture'][0] : null;
+        const resumeFile = req.files['resumePdf'] ? req.files['resumePdf'][0] : null;
+        const skillIconFile = req.files['skillIcon'] ? req.files['skillIcon'][0] : null;
+        const projectThumbnailFile = req.files['projectThumbnail'] ? req.files['projectThumbnail'][0] : null;
+
+        // Update profile picture if provided
         if (profilePictureFile) {
             await dbPool.execute('UPDATE users SET profile_picture_path = ? WHERE email = ?', [profilePictureFile.path, email]);
         }
 
+        // Update resume if provided
         if (resumeFile) {
             await dbPool.execute('UPDATE users SET resume_path = ? WHERE email = ?', [resumeFile.path, email]);
         }
 
-        // --- Part 3: Fetch and Return All Updated User Data ---
+        // --- Part 3: Add New Skill if Provided ---
+        if (skillName && skillIconFile) {
+            const [userRows] = await dbPool.execute('SELECT id FROM users WHERE email = ?', [email]);
+            const userId = userRows[0].id;
+            await dbPool.execute(
+                'INSERT INTO skills (user_id, skill_name, skill_icon_path) VALUES (?, ?, ?)',
+                [userId, skillName, skillIconFile.path]
+            );
+        }
+
+        // --- Part 4: Add New Project if Provided ---
+        if (projectName) {
+            const [userRows] = await dbPool.execute('SELECT id FROM users WHERE email = ?', [email]);
+            const userId = userRows[0].id;
+            const thumbnailPath = projectThumbnailFile ? projectThumbnailFile.path : null;
+            await dbPool.execute(
+                'INSERT INTO projects (user_id, project_name, project_demo_link, project_source_link, project_thumbnail_path) VALUES (?, ?, ?, ?, ?)',
+                [userId, projectName, demoLink, sourceLink, thumbnailPath]
+            );
+        }
+
+        // --- Part 5: Fetch and Return All Updated User Data ---
         const [rows] = await dbPool.execute('SELECT * FROM users WHERE email = ?', [email]);
         const updatedUser = rows[0];
 

@@ -28,92 +28,91 @@
         <div class="page-content profile-page-content">
             <!-- Left Column for Forms -->
             <div class="profile-forms-container">
-                <!-- Edit Profile Form -->
-                <div class="profile-edit-form">
-                    <form id="profile-form">
-                        <h4>Edit Your Details</h4>
-                        <!-- Hidden input to send user's email for identification -->
-                        <input type="hidden" id="user-email-hidden" name="email">
+                <!-- UNIFIED FORM FOR ALL PROFILE UPDATES -->
+                <form id="profile-form">
+                    <!-- Edit Profile Section -->
+                    <div class="profile-edit-form">
+                            <h4>Edit Your Details</h4>
+                            <!-- Hidden input to send user's email for identification -->
+                            <input type="hidden" id="user-email-hidden" name="email">
 
-                        <div class="input-group">
-                            <label for="edit-name">Your Name</label>
-                            <input type="text" id="edit-name" name="name">
-                        </div>
-                        <div class="input-group">
-                            <label for="edit-about">About Description</label>
-                            <textarea id="edit-about" name="about" rows="4"></textarea>
-                        </div>
-                        <div class="input-group">
-                            <label for="edit-hero-desc">Hero Section Description</label>
-                            <textarea id="edit-hero-desc" name="heroDescription" rows="3"></textarea>
-                        </div>
-                        <div class="input-group">
-                            <label for="edit-skills">Title / Subheading (e.g., Passionate Web Developer)</label>
-                            <input type="text" id="edit-skills" name="skills" placeholder="Your professional title">
-                        </div>
-                        <div class="input-group">
-                            <label for="edit-contact-email">Public Contact Email</label>
-                            <input type="email" id="edit-contact-email" name="contactEmail" placeholder="your.contact@email.com">
-                        </div>
-                        <div class="input-group">
-                            <label for="profile-picture-input">Update Profile Photo</label>
-                            <input type="file" id="profile-picture-input" name="profilePicture" accept="image/*">
-                        </div>
-                        <div class="input-group">
-                            <label for="resume-pdf-input">Update Resume (PDF)</label>
-                            <input type="file" id="resume-pdf-input" name="resumePdf" accept=".pdf">
-                        </div>
-                        <button type="submit" class="btn-submit mt-4">Save All Changes</button>
-                    </form>
-                </div>
-
-                <!-- NEW Skill Management Section -->
-                <div class="skill-management-container mt-4">
-                    <hr>
-                    <h4 class="mt-4">Manage Your Skills</h4>
-                    <form id="add-skill-form">
-                        <div class="input-group">
-                            <label for="skill-name">Skill Name</label>
-                            <input type="text" id="skill-name" name="skillName" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="skill-icon">Skill Icon Image</label>
-                            <input type="file" id="skill-icon" name="skillIcon" accept="image/*" required>
-                        </div>
-                        <button type="submit" class="btn-submit">Add Skill</button>
-                    </form>
-                    <div id="existing-skills-list" class="mt-4">
-                        <!-- Skills will be dynamically loaded here -->
+                            <div class="input-group">
+                                <label for="edit-name">Your Name</label>
+                                <input type="text" id="edit-name" name="name">
+                            </div>
+                            <div class="input-group">
+                                <label for="edit-about">About Description</label>
+                                <textarea id="edit-about" name="about" rows="4"></textarea>
+                            </div>
+                            <div class="input-group">
+                                <label for="edit-hero-desc">Hero Section Description</label>
+                                <textarea id="edit-hero-desc" name="heroDescription" rows="3"></textarea>
+                            </div>
+                            <div class="input-group">
+                                <label for="edit-skills">Title / Subheading (e.g., Passionate Web Developer)</label>
+                                <input type="text" id="edit-skills" name="skills" placeholder="Your professional title">
+                            </div>
+                            <div class="input-group">
+                                <label for="edit-contact-email">Public Contact Email</label>
+                                <input type="email" id="edit-contact-email" name="contactEmail" placeholder="your.contact@email.com">
+                            </div>
+                            <div class="input-group">
+                                <label for="profile-picture-input">Update Profile Photo</label>
+                                <input type="file" id="profile-picture-input" name="profilePicture" accept="image/*">
+                            </div>
+                            <div class="input-group">
+                                <label for="resume-pdf-input">Update Resume (PDF)</label>
+                                <input type="file" id="resume-pdf-input" name="resumePdf" accept=".pdf">
+                            </div>
                     </div>
-                </div>
 
-                <!-- NEW Project Management Section -->
-                <div class="project-management-container mt-4">
-                    <hr>
-                    <h4 class="mt-4">Manage Your Projects</h4>
-                    <form id="add-project-form">
+                    <!-- Skill Management Section (now part of the main form) -->
+                    <div class="skill-management-container mt-4">
+                        <hr>
+                        <h4 class="mt-4">Add a New Skill</h4>
+                        <p class="form-hint">Fill this out and click "Save All Changes" to add a new skill.</p>
                         <div class="input-group">
-                            <label for="project-name">Project Name</label>
-                            <input type="text" id="project-name" name="projectName" required>
+                            <label for="skill-name">New Skill Name</label>
+                            <input type="text" id="skill-name" name="skillName">
                         </div>
                         <div class="input-group">
-                            <label for="project-demo-link">Project Live Demo Link</label>
+                            <label for="skill-icon">New Skill Icon Image</label>
+                            <input type="file" id="skill-icon" name="skillIcon" accept="image/*">
+                        </div>
+                        <div id="existing-skills-list" class="mt-4">
+                            <!-- Skills will be dynamically loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Project Management Section (now part of the main form) -->
+                    <div class="project-management-container mt-4">
+                        <hr>
+                        <h4 class="mt-4">Add a New Project</h4>
+                        <p class="form-hint">Fill this out and click "Save All Changes" to add a new project.</p>
+                        <div class="input-group">
+                            <label for="project-name">New Project Name</label>
+                            <input type="text" id="project-name" name="projectName">
+                        </div>
+                        <div class="input-group">
+                            <label for="project-demo-link">New Project Live Demo Link</label>
                             <input type="url" id="project-demo-link" name="demoLink" placeholder="https://example.com">
                         </div>
                         <div class="input-group">
-                            <label for="project-source-link">Project Source Code Link</label>
+                            <label for="project-source-link">New Project Source Code Link</label>
                             <input type="url" id="project-source-link" name="sourceLink" placeholder="https://github.com/user/repo">
                         </div>
                         <div class="input-group">
-                            <label for="project-thumbnail">Project Thumbnail Image</label>
+                            <label for="project-thumbnail">New Project Thumbnail Image</label>
                             <input type="file" id="project-thumbnail" name="projectThumbnail" accept="image/*">
                         </div>
-                        <button type="submit" class="btn-submit">Add Project</button>
-                    </form>
-                    <div id="existing-projects-list" class="mt-4">
-                        <!-- Projects will be dynamically loaded here -->
+                        <div id="existing-projects-list" class="mt-4">
+                            <!-- Projects will be dynamically loaded here -->
+                        </div>
                     </div>
-                </div>
+
+                    <!-- The single submit button for the entire form -->
+                    <button type="submit" class="btn-submit mt-4">Save All Changes</button>
+                </form>
             </div>
 
             <!-- Right Column for Profile Picture Display -->
