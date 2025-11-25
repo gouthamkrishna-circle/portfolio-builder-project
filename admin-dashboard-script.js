@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${user.email}</td>
                     <td class="actions">
                         <button class="btn btn-secondary view-btn" data-userid="${user.id}">View Profile</button>
+                        <button class="btn btn-warning make-admin-btn" data-userid="${user.id}" data-username="${user.username}">Make Admin</button>
                         <button class="btn btn-danger delete-btn" data-userid="${user.id}">Delete</button>
                     </td>
                 `;
@@ -81,6 +82,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const userId = e.target.dataset.userid;
             // Open the user's profile view page in a new tab
             window.open(`user-profile-view.html?id=${userId}`, '_blank');
+        }
+
+        // Handle Make Admin
+        if (e.target.classList.contains('make-admin-btn')) {
+            const userId = e.target.dataset.userid;
+            const username = e.target.dataset.username;
+            if (confirm(`Are you sure you want to make "${username}" an administrator? They will have full access to delete users.`)) {
+                try {
+                    const response = await fetch(`/admin/users/${userId}/make-admin`, {
+                        method: 'PUT',
+                    });
+                    const result = await response.json();
+                    alert(result.message);
+                    // Refresh the user list to remove the promoted user
+                    if (response.ok) {
+                        fetchUsers();
+                    }
+                } catch (error) {
+                    console.error('Error promoting user:', error);
+                    alert('An error occurred while promoting the user.');
+                }
+            }
         }
 
         if (e.target.classList.contains('delete-btn')) {
