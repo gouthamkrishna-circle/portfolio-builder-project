@@ -25,7 +25,10 @@
                 </div>
                 <div class="input-group">
                     <label for="signup-password">Password</label>
-                    <input type="password" id="signup-password" placeholder="Create a Password" required autocomplete="new-password">
+                    <div class="password-wrapper"> <!-- Added wrapper for styling -->
+                        <input type="password" id="signup-password" placeholder="Create a Password" required autocomplete="new-password">
+                        <span id="toggle-signup-password" class="password-toggle">Show</span> <!-- The toggle button -->
+                    </div>
                 </div>
                 <div class="input-group">
                     <label for="signup-about">About Description</label>

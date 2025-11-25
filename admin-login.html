@@ -19,7 +19,10 @@
                 </div>
                 <div class="input-group">
                     <label for="admin-signin-password">Password</label>
-                    <input type="password" id="admin-signin-password" name="password" placeholder="Your Password" required autocomplete="current-password">
+                    <div class="password-wrapper"> <!-- Added wrapper for styling -->
+                        <input type="password" id="admin-signin-password" name="password" placeholder="Your Password" required autocomplete="current-password">
+                        <span id="toggle-admin-password" class="password-toggle">Show</span> <!-- The toggle button -->
+                    </div>
                 </div>
                 <button type="submit" class="btn-submit">Sign In as Admin</button>
                 <p class="form-switch-text mt-4">Not an admin? <a href="welcome.html">Go Back</a></p>
