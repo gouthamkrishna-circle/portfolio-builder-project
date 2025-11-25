@@ -84,14 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // --- Create a single FormData object for all data ---
             const unifiedFormData = new FormData(profileForm);
 
-            // Append the cropped image blob if it exists
+            // CRITICAL FIX: If a new image was cropped, it MUST be used.
+            // The 'set' method will overwrite any existing 'profilePicture' from the form's file input.
             if (croppedImageBlob) {
                 unifiedFormData.set('profilePicture', croppedImageBlob, 'profile.jpg');
-            } else {
-                const profileInput = document.getElementById('profile-picture-input');
-                if (!profileInput.files[0]) {
-                    unifiedFormData.delete('profilePicture');
-                }
             }
 
             // Remove empty resume field if no file is selected
