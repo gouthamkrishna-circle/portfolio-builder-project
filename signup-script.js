@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     AOS.init();
 
     const signupForm = document.getElementById('signup-form');
+    const passwordInput = document.getElementById('signup-password');
+    const togglePassword = document.getElementById('toggle-signup-password'); // Assumes an icon with this ID
 
     if (signupForm) {
         signupForm.addEventListener('submit', async (e) => {
@@ -36,5 +38,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('An error occurred during sign-up. Please try again.');
             }
         });
+
+        // Add show/hide password functionality
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', () => {
+                // Toggle the type attribute
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                // Optional: Toggle icon class
+                if (type === 'password') {
+                    togglePassword.textContent = 'Show';
+                } else {
+                    togglePassword.textContent = 'Hide';
+                }
+            });
+        }
     }
 });

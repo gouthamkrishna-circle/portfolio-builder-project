@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     AOS.init();
 
     const signinForm = document.getElementById('signin-form');
+    const passwordInput = document.getElementById('signin-password');
+    const togglePassword = document.getElementById('toggle-password'); // Assumes an icon with this ID
 
     // This logic will only run on the login page where the form exists
     if (signinForm) {
@@ -44,5 +46,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('An error occurred during sign-in. Please try again.');
             }
         });
+
+        // Add show/hide password functionality
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', () => {
+                // Toggle the type attribute
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                // Optional: Toggle icon class if you are using Font Awesome
+                // For example: togglePassword.classList.toggle('fa-eye-slash');
+                if (type === 'password') {
+                    togglePassword.textContent = 'Show';
+                } else {
+                    togglePassword.textContent = 'Hide';
+                }
+            });
+        }
     }
 });
