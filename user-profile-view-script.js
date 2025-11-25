@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to fetch a single user's data and populate the page
     const fetchAndDisplayUser = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/admin/user/${userId}`);
+            const response = await fetch(`/admin/user/${userId}`);
             if (!response.ok) {
                 throw new Error('User not found or failed to fetch data.');
             }
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadSkills = async (currentUserId) => {
         const skillsGrid = document.getElementById('skills-grid-container');
         if (!skillsGrid) return;
-        try {
+        try { // This try/catch block is unchanged
             const response = await fetch(`http://localhost:3000/user/${currentUserId}/skills`);
             const skills = await response.json();
             skillsGrid.innerHTML = '';
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadProjects = async (currentUserId, currentUsername) => {
         const projectsContainer = document.getElementById('projects-container');
         if (!projectsContainer) return;
-        try {
+        try { // This try/catch block is unchanged
             const response = await fetch(`http://localhost:3000/user/${currentUserId}/projects`);
             const projects = await response.json();
             projectsContainer.innerHTML = ''; // Clear static projects

@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to fetch all users and populate the table
     const fetchUsers = async () => {
         try {
-            const response = await fetch('http://localhost:3000/admin/users');
+            const response = await fetch('/admin/users');
             if (!response.ok) {
                 throw new Error('Failed to fetch users.');
             }
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to fetch all feedback and populate the table
     const fetchFeedback = async () => {
         try {
-            const response = await fetch('http://localhost:3000/admin/feedback');
+            const response = await fetch('/admin/feedback');
             if (!response.ok) {
                 throw new Error('Failed to fetch feedback.');
             }
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const userId = e.target.dataset.userid;
             if (confirm(`Are you sure you want to delete user with ID ${userId}? This action cannot be undone.`)) {
                 try {
-                    const response = await fetch(`http://localhost:3000/admin/users/${userId}`, {
+                    const response = await fetch(`/admin/users/${userId}`, {
                         method: 'DELETE',
                     });
                     const result = await response.json();

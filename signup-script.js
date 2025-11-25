@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Send the data to the server's /signup endpoint
-                const response = await fetch('http://localhost:3000/signup', {
+                const response = await fetch('/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, email, password, about, heroDescription, skills }),

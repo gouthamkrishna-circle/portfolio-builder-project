@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Send the data to the new /admin/login endpoint
-                const response = await fetch('http://localhost:3000/admin/login', {
+                const response = await fetch('/admin/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password }),

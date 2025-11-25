@@ -83,8 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const loadingIndicator = addMessageToChat('bot', '<div class="loader"></div>');
 
         try {
-            // Call your secure backend endpoint
-            const response = await fetch('http://localhost:3000/chat', { // Replace with your deployed backend URL later
+            // Call your backend endpoint using a relative path
+            const response = await fetch('/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: message })
@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const skillsGrid = document.getElementById('skills-grid-container');
             async function loadSkills() {
                 if (!userId || !skillsGrid) return;
-                try {
+                try { // This try/catch block is unchanged
                     const response = await fetch(`http://localhost:3000/user/${userId}/skills`);
                     const skills = await response.json();
                     skillsGrid.innerHTML = '';
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const projectsContainer = document.querySelector('.projects-container');
             async function loadProjects() {
                 if (!userId || !projectsContainer) return;
-                try {
+                try { // This try/catch block is unchanged
                     const response = await fetch(`http://localhost:3000/user/${userId}/projects`);
                     const projects = await response.json();
                     projectsContainer.innerHTML = ''; // Clear static projects
