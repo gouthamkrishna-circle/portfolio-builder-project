@@ -52,6 +52,7 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 // --- Database Connection ---
 // Use a connection pool for better performance
 const dbPool = mysql.createPool({
+
     // Use environment variables for production (Render), and fall back to local settings for development.
     host: process.env.DB_HOST || '127.0.0.1',
     user: process.env.DB_USER || 'root',
