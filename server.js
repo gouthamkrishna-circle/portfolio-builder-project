@@ -45,9 +45,6 @@ const upload = multer({ storage: storage }).fields([
     { name: 'skillIcon', maxCount: 1 } // Add new field for skill icons
 ]);
 
-// Handle favicon.ico requests
-app.get('/favicon.ico', (req, res) => res.status(204));
-
 // --- Database Connection ---
 // Use a connection pool for better performance
 const dbOptions = {
@@ -67,6 +64,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const dbPool = mysql.createPool(dbOptions);
+
+// Handle favicon.ico requests AFTER the database pool is created
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 // --- NEW Route for Chatbot ---
 app.post('/chat', async (req, res) => {
