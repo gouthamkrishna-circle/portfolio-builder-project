@@ -305,39 +305,36 @@ app.put('/admin/users/:id/make-admin', async (req, res) => {
 
 // --- NEW UNIFIED Profile Update Route ---
 app.post('/profile/update-all', upload, async (req, res) => {
-    // Destructure all possible fields from the unified form
-    const { email, name, about, heroDescription, skills, contactEmail, skillName, projectName, demoLink, sourceLink } = req.body;
-    if (!email) return res.status(400).json({ message: 'Email is required.' });
-
     try {
+        // Destructure all possible fields from the unified form
+        const { email, name, about, heroDescription, skills, contactEmail, skillName, projectName, demoLink, sourceLink } = req.body;
+        if (!email) return res.status(400).json({ message: 'Email is required.' });
+
+        // Get user ID first, as it's needed for skills and projects
+        const [userRows] = await dbPool.execute('SELECT id FROM users WHERE email = ?', [email]);
+        if (userRows.length === 0) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+        const userId = userRows[0].id;
+
         // --- Part 1: Update Core User Details ---
         await dbPool.execute('UPDATE users SET username = ?, about = ?, user_title = ?, hero_description = ?, contact_email = ? WHERE email = ?', [name, about, skills, heroDescription, contactEmail, email]);
-    } catch (error) {
-        console.error('Profile text update error:', error);
-        return res.status(500).json({ message: 'An error occurred while updating details.' });
-    }
 
-    // --- Part 2: Handle File Data ---
-    try {
+        // --- Part 2: Handle File Data ---
         const profilePictureFile = req.files['profilePicture'] ? req.files['profilePicture'][0] : null;
         const resumeFile = req.files['resumePdf'] ? req.files['resumePdf'][0] : null;
         const skillIconFile = req.files['skillIcon'] ? req.files['skillIcon'][0] : null;
         const projectThumbnailFile = req.files['projectThumbnail'] ? req.files['projectThumbnail'][0] : null;
 
-        // Update profile picture if provided
         if (profilePictureFile) {
             await dbPool.execute('UPDATE users SET profile_picture_path = ? WHERE email = ?', [profilePictureFile.path, email]);
         }
-
-        // Update resume if provided
         if (resumeFile) {
             await dbPool.execute('UPDATE users SET resume_path = ? WHERE email = ?', [resumeFile.path, email]);
         }
 
         // --- Part 3: Add New Skill if Provided ---
         if (skillName && skillIconFile) {
-            const [userRows] = await dbPool.execute('SELECT id FROM users WHERE email = ?', [email]);
-            const userId = userRows[0].id;
             await dbPool.execute(
                 'INSERT INTO skills (user_id, skill_name, skill_icon_path) VALUES (?, ?, ?)',
                 [userId, skillName, skillIconFile.path]
@@ -345,9 +342,7 @@ app.post('/profile/update-all', upload, async (req, res) => {
         }
 
         // --- Part 4: Add New Project if Provided ---
-        if (projectName) {
-            const [userRows] = await dbPool.execute('SELECT id FROM users WHERE email = ?', [email]);
-            const userId = userRows[0].id;
+        if (projectName && projectThumbnailFile) { // Ensure both name and thumbnail exist
             const thumbnailPath = projectThumbnailFile ? projectThumbnailFile.path : null;
             await dbPool.execute(
                 'INSERT INTO projects (user_id, project_name, project_demo_link, project_source_link, project_thumbnail_path) VALUES (?, ?, ?, ?, ?)',
@@ -355,27 +350,26 @@ app.post('/profile/update-all', upload, async (req, res) => {
             );
         }
 
-        // --- Part 5: Fetch and Return All Updated User Data ---
+        // --- Part 5: Fetch FINAL data AFTER all updates are complete ---
         const [rows] = await dbPool.execute('SELECT * FROM users WHERE email = ?', [email]);
         const updatedUser = rows[0];
 
+        // Send a clean, predictable response
         res.status(200).json({
             message: 'Profile updated successfully!',
             updatedUser: {
-                userName: updatedUser.username, // This key is correct
-                userAbout: updatedUser.about, // This key is correct
-                userTitle: updatedUser.user_title, // Send back the new title
+                userName: updatedUser.username,
+                userAbout: updatedUser.about,
+                userTitle: updatedUser.user_title,
                 userHeroDescription: updatedUser.hero_description,
-                userProfilePic: updatedUser.profile_picture_path, // This key is correct
-                userResume: updatedUser.resume_path, // This key is correct
-                userContactEmail: updatedUser.contact_email,
-                userEmail: updatedUser.email, // Add email for consistency
-                userRole: updatedUser.role // This key is correct
+                userProfilePic: updatedUser.profile_picture_path, // This will now be the NEW path
+                userResume: updatedUser.resume_path,
+                userContactEmail: updatedUser.contact_email
             }
         });
 
     } catch (error) {
-        console.error('Profile file update error:', error);
+        console.error('An error occurred during profile update:', error);
         return res.status(500).json({ message: 'An error occurred while updating files.' });
     }
 });
