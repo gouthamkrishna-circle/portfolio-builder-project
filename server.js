@@ -1,5 +1,5 @@
 const express = require('express');
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2/promise'); // Use mysql2/promise for MySQL
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const multer = require('multer');
@@ -52,10 +52,10 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 // --- Database Connection ---
 // Use a connection pool for better performance
 const dbPool = mysql.createPool({
-    host: '127.0.0.1',       // Or 'localhost'
-    user: 'root',
-    password: '',            // Your XAMPP MySQL password (usually empty)
-    database: 'my_project_db', // The database you created
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -109,7 +109,7 @@ app.post('/login', async (req, res) => {
     try {
         // 1. Find the user in the database by their email
         const [rows] = await dbPool.execute(
-            'SELECT * FROM users WHERE email = ?',
+            'SELECT * FROM users WHERE email = ?', // Use ? for placeholders in mysql2
             [email]
         );
 
@@ -237,7 +237,7 @@ app.get('/admin/users', async (req, res) => {
 app.get('/admin/user/:id', async (req, res) => {
     const userId = req.params.id;
     try {
-        const [rows] = await dbPool.execute('SELECT * FROM users WHERE id = ?', [userId]);
+        const [rows] = await dbPool.execute('SELECT * FROM users WHERE users WHERE id = ?', [userId]);
         if (rows.length === 0) {
             return res.status(404).json({ message: 'User not found.' });
         }
@@ -476,8 +476,8 @@ app.post('/feedback', async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'tumanageswaritumanageswari@gmail.com',
-                pass: 'nbpntweggqgkthwo'    // Your new App Password, with spaces removed
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
             }
         });
 
