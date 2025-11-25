@@ -337,6 +337,5 @@ document.addEventListener('DOMContentLoaded', () => {
             cropper = null;
             croppedImageBlob = null;
         }
-        profilePictureInput.value = '';
     }
 });
