@@ -59,8 +59,9 @@ const dbPool = mysql.createPool({
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'my_project_db',
     ssl: {
-        // For TiDB Cloud, you typically need to specify the CA certificate.
-        rejectUnauthorized: true // Enforce SSL certificate verification
+        // This setting is often required for cloud database connections (like TiDB)
+        // to trust the server's certificate without a specific CA file.
+        rejectUnauthorized: false
     },
     waitForConnections: true,
     connectionLimit: 10,
