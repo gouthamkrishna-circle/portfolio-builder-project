@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Lorenzo's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body class="auth-body">
+
+    <section class="login-section">
+        <div class="form-container" data-aos="fade-up">
+            <!-- Sign Up Form -->
+            <form id="signup-form" class="auth-form active">
+                <h3>Create a New Account</h3>
+                <div class="input-group">
+                    <label for="signup-name">Name</label>
+                    <input type="text" id="signup-name" placeholder="Your Name" required autocomplete="name">
+                </div>
+                <div class="input-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" placeholder="your@email.com" required autocomplete="email">
+                </div>
+                <div class="input-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a Password" required autocomplete="new-password">
+                </div>
+                <div class="input-group">
+                    <label for="signup-about">About Description</label>
+                    <textarea id="signup-about" name="about" placeholder="Tell us about yourself..." rows="4" required></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="signup-hero-desc">Hero Section Description</label>
+                    <textarea id="signup-hero-desc" name="heroDescription" placeholder="A short, impactful summary for your main page..." rows="3" required></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="signup-skills">Skills</label>
+                    <input type="text" id="signup-skills" name="skills" placeholder="e.g., Web Developer, UI/UX Designer" required>
+                </div>
+                <button type="submit" class="btn-submit">Sign Up</button>
+                <p class="form-switch-text">Already have an account? <a href="login.html">Sign In</a></p>
+            </form>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="signup-script.js"></script>
+
+</body>
+</html>

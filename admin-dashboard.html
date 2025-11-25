@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">ADMIN PANEL</div>
+        <nav class="navbar">
+            <a href="#" id="logout-nav-link">Logout</a>
+        </nav>
+    </header>
+
+    <section class="page-section" data-aos="fade-up">
+        <div class="page-header">
+            <h2>User Management</h2>
+            <p>View and manage all registered users on the platform.</p>
+        </div>
+        <div class="page-content" style="max-width: 1200px;">
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="user-list">
+                    <!-- User data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="page-section" data-aos="fade-up">
+        <div class="page-header">
+            <h2>User Feedback</h2>
+            <p>Messages submitted by users.</p>
+        </div>
+        <div class="page-content" style="max-width: 1200px;">
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Received</th>
+                    </tr>
+                </thead>
+                <tbody id="feedback-list">
+                    <!-- Feedback will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="admin-dashboard-script.js"></script>
+
+</body>
+</html>

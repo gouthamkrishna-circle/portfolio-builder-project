@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile View</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">ADMIN VIEW</div>
+        <nav class="navbar">
+            <a href="admin-dashboard.html">Back to Dashboard</a>
+        </nav>
+    </header>
+
+    <section class="hero-section" id="home">
+        <div class="hero-content" data-aos="fade-right">
+            <p>Viewing Profile of:</p>
+            <h1 id="hero-name">User Name</h1>
+            <h2 id="hero-skills"><strong>User Skills</strong></h2>
+            <p class="description" id="hero-description">This is the user's self-written description.</p>
+            <button class="contact-btn">Contact Me</button>
+        </div>
+        <div class="hero-image-container" data-aos="fade-left">
+            <img src="profile.jpg" alt="User profile picture" class="profile-img" id="main-profile-img">
+        </div>
+    </section>
+
+   <!-- About Section -->
+    <section id="about" class="page-section about-section" data-aos="fade-up">
+        <div class="page-header">
+            <h2>About Me</h2>
+        </div>
+        <div class="page-content" id="about-content">
+            <p>User's detailed about section will be displayed here.</p>
+        </div>
+    </section>
+
+    <!-- Resume Section -->
+    <section id="resume" class="page-section" data-aos="fade-up">
+        <div class="page-header">
+            <h2>My Resume</h2>
+        </div>
+        <div class="page-content">
+            <p>Click the button below to view or download the user's resume.</p>
+            <a href="#" class="btn btn-primary" id="resume-view-btn" target="_blank">View Full Resume</a>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills-section" class="page-section" data-aos="fade-up">
+        <div class="page-header">
+            <h2>User's Skills</h2>
+        </div>
+        <div class="page-content">
+            <div class="skills-grid" id="skills-grid-container">
+                <!-- Skills will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="projects" class="page-section" data-aos="fade-up">
+        <div class="page-header">
+            <h2>My Projects</h2>
+        </div>
+        <div class="page-content">
+            <div class="projects-container" id="projects-container">
+                <!-- Projects will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="page-section" data-aos="fade-up">
+        <div class="page-header">
+            <h2>Contact User</h2>
+        </div>
+        <div class="page-content" id="contact-content">
+            <!-- Contact button will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="user-profile-view-script.js"></script>
+
+</body>
+</html>

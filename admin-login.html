@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Lorenzo's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body class="auth-body">
+    <section class="login-section">
+        <div class="form-container" data-aos="fade-up">
+            <form id="admin-signin-form" class="auth-form active">
+                <h3>Administrator Sign In</h3>
+                <div class="input-group">
+                    <label for="admin-signin-email">Email</label>
+                    <input type="email" id="admin-signin-email" name="email" placeholder="your@email.com" required autocomplete="email">
+                </div>
+                <div class="input-group">
+                    <label for="admin-signin-password">Password</label>
+                    <input type="password" id="admin-signin-password" name="password" placeholder="Your Password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn-submit">Sign In as Admin</button>
+                <p class="form-switch-text mt-4">Not an admin? <a href="welcome.html">Go Back</a></p>
+            </form>
+        </div>
+    </section>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="admin-login-script.js"></script>
+</body>
+</html>

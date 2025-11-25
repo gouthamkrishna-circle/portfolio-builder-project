@@ -1,0 +1,837 @@
+/* Basic Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif; /* Adjust if you use a different font */
+}
+
+:root {
+    --primary-color: #62e3d9;      /* Main Background (Teal) */
+    --dark-text: #1A1A1A;          /* Heading / Primary Text */
+    --light-text: #FFFFFF;         /* Button Text */
+    --button-bg: #151515;          /* Button Background */
+    --nav-color: #5C6B6A;          /* Subtext / Paragraph */
+    --active-nav: #13c2ce;         /* Nav Active Underline */
+    --accent-border: #0E2C30;      /* Image Border / Accent */
+    --section-bg-white: #FFFFFF;   /* Section Background (White) */
+    --shadow: rgba(0, 0, 0, 0.25); /* Shadow */
+}
+
+body {
+    background-color: var(--section-bg-white);
+    color: var(--dark-text);
+}
+
+/* --- Header and Navigation --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+    z-index: 10;
+    box-shadow: 0 2px 5px var(--shadow);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dark-text);
+}
+
+.navbar a {
+    text-decoration: none;
+    color: var(--nav-color);
+    font-size: 16px;
+    font-weight: 400;
+    margin-left: 30px;
+    transition: color 0.3s;
+}
+
+.navbar a.active {
+    color: var(--active-nav);
+    font-weight: 700;
+    border-bottom: 2px solid var(--active-nav); /* Underline for active link */
+    padding-bottom: 3px;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    padding: 80px;
+    height: 90vh;
+    min-height: 500px;
+}
+
+.hero-content {
+    color: var(--dark-text);
+    max-width: 50%;
+    padding-left: 20px;
+}
+
+.hero-content p:first-child { /* "Hi There!" */
+    font-size: 18px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.hero-content h1 { /* "I'm lorenzo fellon" */
+    font-size: 50px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    color: var(--dark-text);
+}
+
+.hero-content h2 { /* "I Am Passionate Web Developer" */
+    font-size: 30px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    color: var(--dark-text);
+}
+
+.hero-content h2 strong {
+    font-weight: 600;
+}
+
+.hero-content .description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--nav-color);
+    margin-bottom: 30px;
+}
+
+.contact-btn {
+    background-color: var(--button-bg);
+    color: var(--light-text);
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.hero-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Adds space between the buttons */
+}
+
+.contact-btn:hover {
+    opacity: 0.9;
+}
+
+/* --- Hero Image --- */
+.hero-image-container {
+    width: 350px; /* Set a fixed size for the container */
+    height: 350px;
+    border-radius: 50%; /* Make it perfectly circular */
+    overflow: hidden; /* Hide parts of the image outside the circle */
+    border: 10px solid var(--accent-border);
+    box-shadow: 0 0 20px var(--shadow);
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the circle without distortion */
+}
+
+/* --- About Me Section --- */
+.page-section { /* General styling for all content sections */
+    text-align: center;
+    background-color: var(--section-bg-white);
+    padding: 80px 20px; /* Add padding to separate sections */
+}
+
+.about-section {
+    background-color: #f0f8ff; /* Light blue background */
+}
+
+.page-header { /* Styling for the header within each page-section */
+    /* Inherits padding from .page-section, or can have its own if needed */
+}
+
+.page-header h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--dark-text);
+}
+
+.page-header p { /* Subtext for page headers */
+    font-size: 14px;
+    color: #888;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.page-header p::after { /* Underline effect for page header subtext */
+    content: '';
+    display: block;
+    width: 50px;
+    height: 2px;
+    background-color: var(--primary-color);
+    margin: 8px auto 0;
+}
+
+/* Generic Page Content */
+.page-content {
+    max-width: 800px;
+    margin: 40px auto 0;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--nav-color);
+}
+
+/* --- Projects Section --- */
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    text-align: left;
+}
+
+.project-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-thumbnail {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 15px;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.project-card h3 {
+    font-size: 22px;
+    color: var(--dark-text);
+    margin-bottom: 10px;
+}
+
+.project-card p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--nav-color);
+    flex-grow: 1; /* Allows description to take available space */
+    margin-bottom: 20px;
+}
+
+.project-links {
+    margin-top: auto; /* Pushes buttons to the bottom */
+}
+
+.btn {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--dark-text);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--dark-text);
+    border: 1px solid var(--dark-text);
+}
+
+/* --- Hamburger Menu --- */
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--dark-text);
+}
+
+/* --- Media Queries --- */
+@media (max-width: 768px) {
+    .navbar {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background-color: var(--primary-color);
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+    }
+
+    .navbar.active {
+        left: 0;
+    }
+
+    .navbar a {
+        margin: 15px 0;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .hero-section {
+        flex-direction: column;
+        height: auto;
+        padding: 40px 20px;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    .hero-image-container {
+        margin-top: 40px;
+    }
+}
+
+/* --- Chatbot Icon --- */
+.chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 30px; /* Adjust position slightly */
+    width: 160px; /* Adjust size as needed */
+    height: 160px; /* Adjust size as needed */
+    cursor: pointer;
+    z-index: 1000;
+    filter: drop-shadow(0 0 10px black); /* Increased blur for more glow */
+}
+
+/* --- Chatbot Window --- */
+#chatbot-window {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 350px;
+    height: 500px;
+    background-color: var(--section-bg-white);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1001;
+    transition: opacity 0.3s, transform 0.3s;
+    transform-origin: bottom left;
+}
+
+#chatbot-window.hidden {
+    opacity: 0;
+    transform: scale(0);
+    pointer-events: none;
+}
+
+.chatbot-header {
+    background-color: var(--primary-color);
+    color: var(--dark-text);
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.chatbot-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+#stop-voice-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--dark-text);
+    cursor: pointer;
+    margin-right: 8px;
+    padding: 0;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+#stop-voice-btn.speaking {
+    opacity: 1;
+    box-shadow: 0 0 10px 2px var(--active-nav); /* Glowing effect */
+}
+
+#stop-voice-btn:hover {
+    opacity: 1;
+}
+
+#close-chatbot-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--dark-text);
+    cursor: pointer;
+}
+
+#chatbot-body {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    padding: 8px 12px;
+    border-radius: 18px;
+    max-width: 80%;
+    line-height: 1.4;
+}
+
+.user-message {
+    background-color: var(--primary-color);
+    color: var(--dark-text);
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+.bot-message {
+    background-color: #f1f1f1;
+    color: var(--dark-text);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+#chatbot-form {
+    display: flex;
+    align-items: center; /* Vertically align items */
+    border-top: 1px solid #e0e0e0;
+    padding: 10px;
+}
+
+#chatbot-input {
+    flex-grow: 1;
+    min-width: 0; /* Allow input to shrink correctly */
+    border: none;
+    padding: 10px;
+    outline: none;
+    font-size: 16px;
+}
+
+#chatbot-form button {
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+    background-color: var(--primary-color);
+    border: none;
+    padding: 0 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: var(--dark-text);
+    font-weight: 600;
+}
+
+#chatbot-form #mic-btn { /* Make the selector more specific */
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+    background: none;
+    border: none;
+    padding: 0 10px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.2s;
+}
+
+#mic-btn:hover {
+    color: #000;
+}
+
+#mic-btn.listening {
+    color: #ff4136; /* Red color when listening */
+}
+
+/* --- Chatbot Mobile Adjustments --- */
+@media (max-width: 400px) {
+    #chatbot-window {
+        width: 100%;
+        height: 100%;
+        bottom: 0;
+        left: 0;
+        border-radius: 0;
+    }
+}
+
+/* --- Login/Signup Page --- */
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    padding: 40px 20px;
+    background-color: #f0f8ff; /* Light blue background like about section */
+}
+
+.form-container {
+    width: 100%;
+    max-width: 450px;
+    background-color: var(--section-bg-white);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.form-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.toggle-btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--nav-color);
+    transition: all 0.3s ease;
+}
+
+.toggle-btn.active {
+    background-color: var(--primary-color);
+    color: var(--dark-text);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.auth-form {
+    display: none; /* Hide forms by default */
+}
+
+.auth-form.active {
+    display: block; /* Show active form */
+}
+
+.auth-form h3 {
+    text-align: center;
+    font-size: 24px;
+    color: var(--dark-text);
+    margin-bottom: 25px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    color: var(--nav-color);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--button-bg);
+    color: var(--light-text);
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.btn-submit:hover {
+    opacity: 0.9;
+}
+
+/* --- Profile Page Specific Styles --- */
+.profile-page-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Two columns: forms on the left, picture on the right */
+    gap: 50px;
+    align-items: start; /* Align items to the top of their grid cell */
+    text-align: left; /* Align text to the left within the forms */
+}
+
+.profile-forms-container {
+    /* This container will hold all the forms */
+}
+
+.profile-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center; /* Center text under the profile picture */
+    position: sticky; /* Make the profile picture stay in view on scroll */
+    top: 100px;
+}
+
+.profile-page-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.profile-display h3 {
+    font-size: 28px;
+    color: var(--dark-text);
+}
+
+.profile-display p {
+    font-size: 16px;
+    color: var(--nav-color);
+}
+
+.profile-edit-form {
+    /* This class is now just a container, no special styles needed unless desired */
+}
+
+/* This is now just a container for the file upload form */
+/* .profile-upload-form {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 30px;
+} */
+
+.mt-4 {
+    margin-top: 40px;
+}
+
+/* --- Welcome Page Styles --- */
+.welcome-container {
+    text-align: center;
+}
+
+.welcome-container h3 {
+    font-size: 24px;
+    color: var(--dark-text);
+    margin-bottom: 10px;
+}
+
+.welcome-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.welcome-btn {
+    text-align: center;
+    text-decoration: none;
+}
+
+.admin-btn {
+    background-color: #5C6B6A; /* A different color for admin button */
+}
+
+/* --- Admin Dashboard Table Styles --- */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.user-table thead {
+    background-color: var(--button-bg);
+    color: var(--light-text);
+}
+
+.user-table th,
+.user-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.user-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.user-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.user-table .actions {
+    display: flex;
+    gap: 10px;
+}
+
+.user-table .actions .btn {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.btn-danger {
+    background-color: #ff4136;
+    color: white;
+    border: 1px solid #ff4136;
+}
+
+/* --- Cropping Modal Styles --- */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.modal-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.modal-content h3 {
+    margin-bottom: 20px;
+}
+
+.img-container {
+    height: 400px;
+    margin-bottom: 20px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* --- Resume Viewer Page --- */
+#resume-container {
+    min-height: 800px; /* Ensure the container has height */
+}
+
+/* --- Project Management List --- */
+.project-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.project-item-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.skill-list-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.skill-card-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain; /* Use contain to prevent distortion */
+    margin: 0 auto 15px auto;
+}
+
+/* --- Skills Grid --- */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.skill-card {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px 20px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.skill-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}

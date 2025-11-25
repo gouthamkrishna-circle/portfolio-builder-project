@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorenzo - Web Developer Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">YOUR SPACE</div>
+        <nav class="navbar">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="profile.html" id="profile-nav-link" style="display: none;">My Profile</a>
+            <a href="#resume">Resume</a>
+            <a href="#skills-section">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="feedback.html" id="feedback-nav-link" style="display: none;">Feedback</a>
+            <a href="#contact">Contact</a>
+            <a href="login.html" id="login-nav-link">Login</a>
+            <a href="#" id="logout-nav-link" style="display: none;">Logout</a>
+        </nav>
+        <div class="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+    </header>
+
+
+    <section class="hero-section" id="home">
+        <div class="hero-content" data-aos="fade-right">
+            <p>Hi There!</p>
+            <h1 id="hero-name">I'm lorenzo fellon</h1>
+            <h2 id="hero-skills">I Am <strong>Passionate Web Developer</strong></h2>
+            <p class="description">Creative Web Developer Offering 6+ Years Of Experience Providing High-Impact Web Solutions For Many Different Organizations.</p>
+            <div class="hero-buttons">
+                <button class="contact-btn">Contact Me</button>
+                <a href="profile.html" id="update-profile-btn" class="btn btn-secondary" style="display: none;">Update Profile</a>
+            </div>
+        </div>
+        <div class="hero-image-container" data-aos="fade-left">
+            <img src="profile.jpg" alt="Lorenzo fellon profile" class="profile-img" id="main-profile-img">
+        </div>
+    </section>
+
+    <!-- Chatbot Icon -->
+    <dotlottie-wc
+        class="chatbot-icon"
+        src="https://lottie.host/bd548429-22ed-4687-a03b-f8b448af0304/ZHFlVdx6mt.lottie"
+        loop
+        autoplay>
+    </dotlottie-wc>
+
+
+   <!-- About Section -->
+    <section id="about" class="page-section about-section" data-aos="fade-up">
+        <div class="page-header">
+            <h2>About Me</h2>
+            <p>Here's a little more about what I do and who I am.</p>
+        </div>
+        <div class="page-content" id="about-content">
+            <p>I am a passionate web developer with a keen eye for design and a knack for creating user-friendly and visually appealing websites. With 6+ years of experience, I have honed my skills in HTML, CSS, JavaScript, and various modern frameworks.</p>
+            <p>I specialize in front-end development, crafting seamless and interactive user experiences. I am dedicated to staying up-to-date with the latest web technologies and trends to deliver innovative solutions that meet my clients' needs.</p>
+            <p>When I'm not coding, you can find me exploring new design ideas, contributing to open-source projects, or enjoying a good cup of coffee.</p>
+        </div>
+    </section>
+
+    <!-- NEW Skills Section -->
+    <section id="skills-section" class="page-section" data-aos="fade-up">
+        <div class="page-header">
+            <h2>My Skills</h2>
+            <p>Technologies and tools I work with.</p>
+        </div>
+        <div class="page-content">
+            <div class="skills-grid" id="skills-grid-container">
+                <!-- Skills will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Resume Section -->
+    <section id="resume" class="page-section" data-aos="fade-up">
+        <div class="page-header">
+            <h2>My Resume</h2>
+            <p>A brief overview of my professional background and skills.</p>
+        </div>
+        <div class="page-content">
+            <p>This is where you can add details about your work experience, education, and skills. You might want to include a link to download a PDF version of your resume.</p>
+            <a href="resume-viewer.html" id="resume-view-btn" class="btn btn-primary" style="display: none;">View Full Resume</a>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="projects" class="page-section" data-aos="fade-up">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+        <div class="page-header">
+            <h2>My Projects</h2>
+            <p>Explore some of the web development projects I've built.</p>
+        </div>
+        <div class="page-content">
+            <div class="projects-container">
+                <!-- Project 1 -->
+                <div class="project-card" data-aos="fade-up">
+                    <h3>E-commerce Website</h3>
+                    <p>A fully responsive e-commerce platform built with modern web technologies, featuring product catalogs, a shopping cart, and a secure checkout process.</p>
+                    <div class="project-links">
+                        <a href="#" class="btn btn-primary">Live Demo</a>
+                        <a href="#" class="btn btn-secondary">Source Code</a>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Portfolio Website</h3>
+                    <p>A personal portfolio site to showcase skills and projects, featuring a clean design, smooth animations, and a contact form.</p>
+                    <div class="project-links">
+                        <a href="#" class="btn btn-primary">Live Demo</a>
+                        <a href="#" class="btn btn-secondary">Source Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="page-section" data-aos="fade-up">
+        <div class="page-header">
+            <h2>Contact Me</h2>
+            <p>Get in touch to discuss your project or just to say hi!</p>
+        </div>
+        <div class="page-content" id="contact-content">
+            <!-- This content will be dynamically updated by script.js -->
+            <p>If you'd like to get in touch, please feel free to send me an email!</p>
+        </div>
+    </section>
+
+    <!-- Chatbot Window -->
+    <div id="chatbot-window" class="hidden">
+        <div class="chatbot-header">
+            <h3>Chatbot</h3>
+            <div>
+                <button id="stop-voice-btn" title="Stop voice">🔇</button>
+                <button id="close-chatbot-btn" title="Close chat">&times;</button>
+            </div>
+        </div>
+        <div id="chatbot-body">
+            <div class="message bot-message">
+                Hi there! How can I help you today?
+            </div>
+        </div>
+        <form id="chatbot-form">
+            <input type="text" id="chatbot-input" placeholder="Ask me anything..." autocomplete="off" required>
+            <button type="button" id="mic-btn">🎤</button>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

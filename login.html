@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Lorenzo's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="auth-body">
+    <section class="login-section">
+        <div class="form-container" data-aos="fade-up">
+            <!-- Sign In Form with corrected IDs -->
+            <form id="signin-form" class="auth-form active">
+                <h3>Sign In to Your Account</h3>
+                <div class="input-group">
+                    <label for="signin-email">Email</label>
+                    <input type="email" id="signin-email" name="email" placeholder="your@email.com" required autocomplete="email">
+                </div>
+                <div class="input-group">
+                    <label for="signin-password">Password</label>
+                    <input type="password" id="signin-password" name="password" placeholder="Your Password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn-submit">Sign In</button>
+                <p class="form-switch-text">Don't have an account? <a href="signup.html">Sign Up</a></p>
+                <p class="form-switch-text mt-4">Are you an admin? <a href="admin-login.html">Admin Login</a></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- Scripts to enable animations and login functionality -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="login-script.js"></script>
+
+</body>
+</html>

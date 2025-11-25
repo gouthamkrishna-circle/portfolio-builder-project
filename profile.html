@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Lorenzo's Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Cropper.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">YOUR SPACE</div>
+        <nav class="navbar">
+            <a href="index.html">Back to Portfolio</a>
+            <a href="#" id="logout-nav-link">Logout</a>
+        </nav>
+    </header>
+
+    <section class="page-section" data-aos="fade-up">
+        <div class="page-header">
+            <h2>My Profile</h2>
+            <p>Manage your personal information and profile picture.</p>
+        </div>
+        <div class="page-content profile-page-content">
+            <!-- Left Column for Forms -->
+            <div class="profile-forms-container">
+                <!-- Edit Profile Form -->
+                <div class="profile-edit-form">
+                    <form id="profile-form">
+                        <h4>Edit Your Details</h4>
+                        <!-- Hidden input to send user's email for identification -->
+                        <input type="hidden" id="user-email-hidden" name="email">
+
+                        <div class="input-group">
+                            <label for="edit-name">Your Name</label>
+                            <input type="text" id="edit-name" name="name">
+                        </div>
+                        <div class="input-group">
+                            <label for="edit-about">About Description</label>
+                            <textarea id="edit-about" name="about" rows="4"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label for="edit-hero-desc">Hero Section Description</label>
+                            <textarea id="edit-hero-desc" name="heroDescription" rows="3"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label for="edit-skills">Title / Subheading (e.g., Passionate Web Developer)</label>
+                            <input type="text" id="edit-skills" name="skills" placeholder="Your professional title">
+                        </div>
+                        <div class="input-group">
+                            <label for="edit-contact-email">Public Contact Email</label>
+                            <input type="email" id="edit-contact-email" name="contactEmail" placeholder="your.contact@email.com">
+                        </div>
+                        <div class="input-group">
+                            <label for="profile-picture-input">Update Profile Photo</label>
+                            <input type="file" id="profile-picture-input" name="profilePicture" accept="image/*">
+                        </div>
+                        <div class="input-group">
+                            <label for="resume-pdf-input">Update Resume (PDF)</label>
+                            <input type="file" id="resume-pdf-input" name="resumePdf" accept=".pdf">
+                        </div>
+                        <button type="submit" class="btn-submit mt-4">Save All Changes</button>
+                    </form>
+                </div>
+
+                <!-- NEW Skill Management Section -->
+                <div class="skill-management-container mt-4">
+                    <hr>
+                    <h4 class="mt-4">Manage Your Skills</h4>
+                    <form id="add-skill-form">
+                        <div class="input-group">
+                            <label for="skill-name">Skill Name</label>
+                            <input type="text" id="skill-name" name="skillName" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="skill-icon">Skill Icon Image</label>
+                            <input type="file" id="skill-icon" name="skillIcon" accept="image/*" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Add Skill</button>
+                    </form>
+                    <div id="existing-skills-list" class="mt-4">
+                        <!-- Skills will be dynamically loaded here -->
+                    </div>
+                </div>
+
+                <!-- NEW Project Management Section -->
+                <div class="project-management-container mt-4">
+                    <hr>
+                    <h4 class="mt-4">Manage Your Projects</h4>
+                    <form id="add-project-form">
+                        <div class="input-group">
+                            <label for="project-name">Project Name</label>
+                            <input type="text" id="project-name" name="projectName" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="project-demo-link">Project Live Demo Link</label>
+                            <input type="url" id="project-demo-link" name="demoLink" placeholder="https://example.com">
+                        </div>
+                        <div class="input-group">
+                            <label for="project-source-link">Project Source Code Link</label>
+                            <input type="url" id="project-source-link" name="sourceLink" placeholder="https://github.com/user/repo">
+                        </div>
+                        <div class="input-group">
+                            <label for="project-thumbnail">Project Thumbnail Image</label>
+                            <input type="file" id="project-thumbnail" name="projectThumbnail" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn-submit">Add Project</button>
+                    </form>
+                    <div id="existing-projects-list" class="mt-4">
+                        <!-- Projects will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column for Profile Picture Display -->
+            <div class="profile-display">
+                <img src="profile.jpg" alt="Your Profile Picture" id="profile-page-picture" class="profile-page-img">
+                <h3 id="profile-page-name">User Name</h3>
+                <p id="profile-page-email">user@email.com</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Cropping Modal (Hidden by default) -->
+    <div id="crop-modal" class="modal-container hidden">
+        <div class="modal-content">
+            <h3>Crop Your Profile Picture</h3>
+            <div class="img-container">
+                <img id="image-to-crop" src="">
+            </div>
+            <div class="modal-buttons">
+                <button id="crop-and-save-btn" class="btn-submit">Crop & Save</button>
+                <button id="cancel-crop-btn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW Edit Project Modal (Hidden by default) -->
+    <div id="edit-project-modal" class="modal-container hidden">
+        <div class="modal-content">
+            <h3>Edit Project</h3>
+            <form id="edit-project-form">
+                <input type="hidden" id="edit-project-id">
+                <div class="input-group">
+                    <label for="edit-project-name">Project Name</label>
+                    <input type="text" id="edit-project-name" name="projectName" required>
+                </div>
+                <div class="input-group">
+                    <label for="edit-project-demo-link">Project Live Demo Link</label>
+                    <input type="url" id="edit-project-demo-link" name="demoLink" placeholder="https://example.com">
+                </div>
+                <div class="input-group">
+                    <label for="edit-project-source-link">Project Source Code Link</label>
+                    <input type="url" id="edit-project-source-link" name="sourceLink" placeholder="https://github.com/user/repo">
+                </div>
+                <div class="input-group">
+                    <label for="edit-project-thumbnail">Update Thumbnail Image</label>
+                    <input type="file" id="edit-project-thumbnail" name="projectThumbnail" accept="image/*">
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-submit">Save Project</button>
+                    <button type="button" id="cancel-edit-project-btn" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <!-- Cropper.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="profile-script.js"></script>
+
+</body>
+</html>
