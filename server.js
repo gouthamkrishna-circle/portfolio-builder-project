@@ -58,6 +58,10 @@ const dbPool = mysql.createPool({
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'my_project_db',
+    ssl: {
+        // For TiDB Cloud, you typically need to specify the CA certificate.
+        rejectUnauthorized: true // Enforce SSL certificate verification
+    },
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
