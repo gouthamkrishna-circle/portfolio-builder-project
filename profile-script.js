@@ -112,13 +112,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     // Update localStorage with the fresh data from the server response
                     const updated = result.updatedUser;
-                    localStorage.setItem('userName', updated.userName);
-                    localStorage.setItem('userAbout', updated.userAbout);
-                    localStorage.setItem('userHeroDescription', updated.userHeroDescription);
-                    localStorage.setItem('userTitle', updated.userTitle); // Save the new title
-                    localStorage.setItem('userProfilePic', updated.userProfilePic);
-                    localStorage.setItem('userContactEmail', updated.userContactEmail);
-                    localStorage.setItem('userResume', updated.userResume);
+
+                    // Explicitly update each item and handle potential null values
+                    localStorage.setItem('userName', updated.userName || '');
+                    localStorage.setItem('userAbout', updated.userAbout || '');
+                    localStorage.setItem('userHeroDescription', updated.userHeroDescription || '');
+                    localStorage.setItem('userTitle', updated.userTitle || '');
+                    localStorage.setItem('userContactEmail', updated.userContactEmail || '');
+                    localStorage.setItem('userResume', updated.userResume || '');
+
+                    // CRITICAL: Only update the profile picture if a new one was returned
+                    if (updated.userProfilePic) {
+                        localStorage.setItem('userProfilePic', updated.userProfilePic);
+                    }
+
                     alert(result.message);
                     window.location.href = 'index.html'; // Redirect ONLY on full success
                 } else {
