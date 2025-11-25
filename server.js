@@ -484,14 +484,14 @@ app.post('/feedback', async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'tumanageswaritumanageswari@gmail.com', // Reverted for local testing
-                pass: 'nbpntweggqgkthwo'    // Reverted for local testing
+                user: process.env.GMAIL_USER, // Use environment variable for email user
+                pass: process.env.GMAIL_APP_PASS    // Use environment variable for email app password
             }
         });
 
         const mailOptions = {
-            from: `"${userEmail} via Portfolio Platform" <tumanageswaritumanageswari@gmail.com>`,
-            to: 'tumanageswaritumanageswari@gmail.com', // Admin's email
+            from: `"${userEmail} via Portfolio Platform" <${process.env.GMAIL_USER}>`,
+            to: process.env.GMAIL_USER, // Send the email to yourself
             replyTo: userEmail, // This is the crucial change
             subject: 'New Feedback Received on Your Platform!',
             html: `
