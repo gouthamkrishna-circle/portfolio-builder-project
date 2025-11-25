@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const message = document.getElementById('feedback-message').value;
 
             try {
-                const response = await fetch('
+                const response = await fetch('/feedback', {
+                    method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ userEmail, message }),
                 });
